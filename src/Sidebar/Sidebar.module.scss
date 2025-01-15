@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sidebarHeader {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.sidebarNav {
+  height: 100vh;
+  border: 2px solid black;
+  padding: 25px;
+  background-color: black;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      font-size: 25px;
+      cursor: pointer;
+      color: white;
+      transition: background-color 0.3s ease;
+
+      svg {
+        margin-right: 0.75rem;
+        font-size: 1.25rem;
+      }
+
+      span {
+        flex: 1;
+      }
+      li:hover {
+        color: white;
+      }
+    }
+  }
+}
