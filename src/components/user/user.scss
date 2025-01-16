@@ -1,0 +1,19 @@
+.userLayout {
+  .header {
+    text-align: right;
+
+    .btn {
+      padding: 20px;
+      border-radius: 20px;
+      background-color: blue;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: rgb(4, 4, 36);
+    }
+  }
+}

@@ -6,14 +6,12 @@
 
 .navMainContainer {
   height: 100vh;
-  background-color: red;
 }
 
 .navContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #070707;
   color: white;
   width: 100%;
   height: 70px;
@@ -28,45 +26,28 @@
 
 .toggleIcon {
   font-size: 50px;
-  color: green;
-}
-
-.black-theme {
-  background-color: #333;
-}
-
-.green-theme {
-  background-color: #28a745;
-}
-
-.black-theme .toggleContainer {
-  color: black;
+  color: rgb(197, 225, 197);
 }
 
 .green-theme .toggleContainer {
   color: green;
 }
 
-.sidebarContainer {
+.layoutContainer {
   display: flex;
-  justify-content: space-between;
+  height: calc(100vh - 75px);
 }
 
-.btnContainer {
-  padding: 20px;
-}
-
-.btn {
-  padding: 20px;
-  border-radius: 20px;
+.componentContainer {
+  padding: 10px;
   width: 100%;
-  background-color: blue;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.btn:hover {
-  background-color: darkblue;
+.green-bg {
+  background-color: green;
+}
+
+/* Black theme */
+.black-bg {
+  background-color: black;
 }

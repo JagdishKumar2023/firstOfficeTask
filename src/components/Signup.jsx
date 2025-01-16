@@ -9,6 +9,31 @@ const Signup = () => {
     password: "",
   });
 
+  const validation = () => {
+    if (!inputValues.name) {
+      alert("Name is required.");
+      return false;
+    }
+
+    if (!inputValues.email) {
+      alert("Email is required.");
+      return false;
+    }
+
+    if (
+      !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(inputValues.email)
+    ) {
+      alert("Please enter a valid email address.");
+      return false;
+    }
+
+    if (!inputValues.password || inputValues.password.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return false;
+    }
+    return true;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputValue({ ...inputValues, [name]: value });
@@ -17,17 +42,22 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!validation()) {
+      return;
+    }
+
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
     if (storedUsers.length >= 8) {
-      alert("Maximum user limit reached.");
+      alert("Maximum user  limit  reached.");
       return;
     }
 
     storedUsers.push(inputValues);
     localStorage.setItem("users", JSON.stringify(storedUsers));
 
+    alert("User successfully registered.");
     console.log("User signed up:", inputValues);
-    alert("User is registered.");
+
     setInputValue({ name: "", email: "", password: "" });
   };
 
@@ -46,6 +76,7 @@ const Signup = () => {
             value={inputValues.name}
             name="name"
             onChange={handleChange}
+            required
           />
         </div>
         <div>
@@ -59,6 +90,7 @@ const Signup = () => {
             value={inputValues.email}
             name="email"
             onChange={handleChange}
+            required
           />
         </div>
         <div>
@@ -72,6 +104,7 @@ const Signup = () => {
             value={inputValues.password}
             name="password"
             onChange={handleChange}
+            required
           />
         </div>
         <button className="signup-button" type="submit">
@@ -79,7 +112,7 @@ const Signup = () => {
         </button>
       </form>
       <p className="signup-link">
-        Already have an account? <Link to="/signup">Login</Link>
+        Already have an account? <Link to="/login">Login</Link>
       </p>
     </div>
   );

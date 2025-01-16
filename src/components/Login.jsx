@@ -5,11 +5,19 @@ import "./Login.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setError("");
+
+    if (!email || !password) {
+      setError("Both email and password are required.");
+      return;
+    }
 
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
     const storedUser = storedUsers.find(
@@ -17,13 +25,12 @@ const Login = () => {
     );
 
     if (storedUser) {
-      console.log("Login successful");
       alert("Login successful");
       navigate("/landing-page");
     } else {
-      console.log("Try again");
-      alert("Incorrect email or password");
+      setError("Incorrect email or password.");
     }
+
     setEmail("");
     setPassword("");
   };
@@ -32,6 +39,7 @@ const Login = () => {
     <div className="login-container">
       <h1 className="login-title">Login</h1>
       <form className="login-form" onSubmit={handleSubmit}>
+        {error && <p className="error-message">{error}</p>}
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
@@ -59,7 +67,7 @@ const Login = () => {
         </button>
       </form>
       <p className="signup-link">
-        Dont have an account? <Link to="/">Sign up</Link>
+        Dont have an account? <Link to="/signup">Sign up</Link>
       </p>
     </div>
   );

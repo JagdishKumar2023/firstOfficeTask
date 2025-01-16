@@ -11,7 +11,7 @@ const Sidebar = () => {
         <ul>
           <li>
             <FaUser />
-            <span>Name</span>
+            <span>User</span>
           </li>
           <li>
             <MdEmail />
@@ -31,7 +31,7 @@ const Sidebar = () => {
           </li>
           <li>
             <FaUpload />
-            <span>Profile Update</span>
+            <span>Profile </span>
           </li>
         </ul>
       </nav>
