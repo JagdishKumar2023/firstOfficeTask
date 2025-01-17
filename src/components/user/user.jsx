@@ -3,7 +3,7 @@ import "./user.scss";
 import ModalAntd from "../../ModalAntd/ModalAntd";
 
 // eslint-disable-next-line react/prop-types
-const UserLayout = ({ getFormData }) => {
+const UserLayout = ({ getFormData,data,setData }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -24,6 +24,8 @@ const UserLayout = ({ getFormData }) => {
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
         getFormData={getFormData}
+        data={data}
+        setData={setData}
       />
     </>
   );

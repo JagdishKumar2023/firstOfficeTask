@@ -7,6 +7,8 @@ import Table from "../Table/Table";
 
 const Layout = () => {
   const LocalStrData = localStorage.getItem("userForm");
+  const storedPhoto = localStorage.getItem("userProfilePhoto");
+
   console.log("aksjgdiak", LocalStrData);
 
   const [isGreen, setIsGreen] = useState(true);
@@ -19,6 +21,13 @@ const Layout = () => {
     <div className={`mainContainer ${isGreen ? "green-bg" : "black-bg"}`}>
       <div className={`navContainer`}>
         <h1>Task bar</h1>
+
+        {storedPhoto && (
+          <div className="profile-photo">
+            <img src={storedPhoto} alt="Profile" className="profileImage" />
+          </div>
+        )}
+
         <div className="toggleContainer" onClick={toggleTheme}>
           <IoToggleOutline className="toggleIcon" />
         </div>

@@ -15,6 +15,7 @@
   height: 100%;
   padding: 25px;
   width: 200px;
+  border: 2px solid white;
 
   ul {
     list-style: none;
@@ -27,7 +28,7 @@
       font-size: 25px;
       cursor: pointer;
       color: white;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, color 0.3s ease;
 
       svg {
         margin-right: 0.75rem;
@@ -37,8 +38,15 @@
       span {
         flex: 1;
       }
-      li:hover {
-        color: white;
+
+      &:hover {
+        background-color: rgba(47, 4, 235, 0.1);
+      }
+
+      &.active {
+        background-color: rgba(4, 81, 214, 0.2);
+        font-weight: bold;
+        border-radius: 10px;
       }
     }
   }

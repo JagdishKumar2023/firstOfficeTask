@@ -1,16 +1,23 @@
 import { useState } from "react";
 import { Modal, Input, Button, message } from "antd";
+import { v4 as uuidv4 } from "uuid";
 
 // eslint-disable-next-line react/prop-types
-const ModalAntd = ({ isModalVisible, setIsModalVisible }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-    address: "",
-    profilePhoto: null,
-  });
+const ModalAntd = ({ isModalVisible, setIsModalVisible, newData }) => {
+  console.log("newData", newData);
+
+  const [formData, setFormData] = useState(
+    newData || {
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      address: "",
+      profilePhoto: null,
+    }
+  );
+
+  console.log("formData", formData);
 
   const [errors, setErrors] = useState({});
 
@@ -59,15 +66,34 @@ const ModalAntd = ({ isModalVisible, setIsModalVisible }) => {
 
   const handleSubmit = () => {
     if (validateForm()) {
-      console.log("Form Data Submitted:", formData);
-
       const prevData = localStorage.getItem("userForm");
       const parsedData = prevData ? JSON.parse(prevData) : [];
-      const updatedData = [...parsedData, formData];
+
+      let updatedData;
+
+      if (formData.id) {
+        const index = parsedData.findIndex((item) => item.id === formData.id);
+        if (index !== -1) {
+          parsedData[index] = formData;
+        }
+        updatedData = [...parsedData];
+      } else {
+        formData.id = uuidv4();
+        updatedData = [...parsedData, formData];
+      }
 
       localStorage.setItem("userForm", JSON.stringify(updatedData));
-
       setIsModalVisible(false);
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        address: "",
+        profilePhoto: null,
+      });
+
       message.success("User added successfully!");
     } else {
       message.error("Please fill the form before submitting.");
@@ -82,8 +108,17 @@ const ModalAntd = ({ isModalVisible, setIsModalVisible }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, profilePhoto: file });
-    setErrors({ ...errors, profilePhoto: "" });
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const base64Image = reader.result;
+      setFormData({ ...formData, profilePhoto: base64Image });
+      localStorage.setItem("userProfilePhoto", base64Image);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
