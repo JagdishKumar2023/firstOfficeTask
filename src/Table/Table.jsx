@@ -10,7 +10,7 @@ const Table = () => {
   const [editField, setEditField] = useState(null);
 
   useEffect(() => {
-    const prevData = localStorage.getItem("userForm");
+    const prevData = localStorage.getItem("users");
     if (prevData) {
       setData(JSON.parse(prevData));
     }
@@ -32,7 +32,7 @@ const Table = () => {
   const handleDelete = (id) => {
     const updatedData = data.filter((item) => item.id !== id);
     setData(updatedData);
-    localStorage.setItem("userForm", JSON.stringify(updatedData));
+    localStorage.setItem("users", JSON.stringify(updatedData));
   };
 
   return (
@@ -59,7 +59,9 @@ const Table = () => {
                 <td>{ele?.password}</td>
                 <td>{ele?.phone}</td>
                 <td>{ele?.address}</td>
-                <td>{ele?.profile}</td>
+                <td>
+                  <img src={ele?.profile} alt="" />
+                </td>
                 <td className="icon" onClick={() => handleEdit(ele)}>
                   {<FaRegEdit />}
                 </td>

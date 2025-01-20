@@ -19,6 +19,16 @@ const Login = () => {
       return;
     }
 
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
     const storedUser = storedUsers.find(
       (user) => user.email === email && user.password === password
@@ -47,7 +57,10 @@ const Login = () => {
             type="email"
             placeholder="Enter your email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setError("");
+            }}
             name="email"
           />
         </div>
@@ -58,7 +71,10 @@ const Login = () => {
             type="password"
             placeholder="Enter your password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setError("");
+            }}
             name="password"
           />
         </div>

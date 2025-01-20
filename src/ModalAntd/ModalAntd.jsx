@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 const ModalAntd = ({ isModalVisible, setIsModalVisible, newData }) => {
   console.log("newData", newData);
 
+  const storedPhoto = localStorage.getItem("userProfilePhoto");
+
   const [formData, setFormData] = useState(
     newData || {
       name: "",
@@ -66,7 +68,7 @@ const ModalAntd = ({ isModalVisible, setIsModalVisible, newData }) => {
 
   const handleSubmit = () => {
     if (validateForm()) {
-      const prevData = localStorage.getItem("userForm");
+      const prevData = localStorage.getItem("users");
       const parsedData = prevData ? JSON.parse(prevData) : [];
 
       let updatedData;
@@ -82,7 +84,7 @@ const ModalAntd = ({ isModalVisible, setIsModalVisible, newData }) => {
         updatedData = [...parsedData, formData];
       }
 
-      localStorage.setItem("userForm", JSON.stringify(updatedData));
+      localStorage.setItem("users", JSON.stringify(updatedData));
       setIsModalVisible(false);
 
       setFormData({
@@ -194,15 +196,27 @@ const ModalAntd = ({ isModalVisible, setIsModalVisible, newData }) => {
         {errors.address && <span className="error-text">{errors.address}</span>}
 
         <label htmlFor="photo">Photo Upload</label>
-        <Input
-          type="file"
-          name="profilePhoto"
-          id="photo"
-          onChange={handleFileChange}
-          className={`input ${errors.profilePhoto && "input-error"}`}
-        />
-        {errors.profilePhoto && (
-          <span className="error-text">{errors.profilePhoto}</span>
+        {storedPhoto && (
+          <div>
+            <Input
+              type="file"
+              name="profilePhoto"
+              id="photo"
+              onChange={handleFileChange}
+              className={`input ${errors.profilePhoto && "input-error"}`}
+            />
+            <img
+              src={storedPhoto}
+              alt="Uploaded Profile"
+              style={{
+                height: "100px",
+                width: "100px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                marginTop: "10px",
+              }}
+            />
+          </div>
         )}
       </Modal>
     </div>

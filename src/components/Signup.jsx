@@ -1,118 +1,84 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Signup.css";
 
 const Signup = () => {
-  const [inputValues, setInputValue] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const validation = () => {
-    if (!inputValues.name) {
-      alert("Name is required.");
-      return false;
-    }
+  const navigate = useNavigate();
 
-    if (!inputValues.email) {
-      alert("Email is required.");
-      return false;
-    }
-
-    if (
-      !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(inputValues.email)
-    ) {
-      alert("Please enter a valid email address.");
-      return false;
-    }
-
-    if (!inputValues.password || inputValues.password.length < 6) {
-      alert("Password must be at least 6 characters long.");
-      return false;
-    }
-    return true;
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInputValue({ ...inputValues, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
 
-    if (!validation()) {
+    setError("");
+    setSuccess("");
+
+    if (!email || !password) {
+      setError("Both email and password are required.");
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
       return;
     }
 
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    if (storedUsers.length >= 8) {
-      alert("Maximum user  limit  reached.");
+    const userExists = storedUsers.some((user) => user.email === email);
+
+    if (userExists) {
+      setError("User already exists with this email.");
       return;
     }
 
-    storedUsers.push(inputValues);
+    storedUsers.push({ email, password });
     localStorage.setItem("users", JSON.stringify(storedUsers));
-
-    alert("User successfully registered.");
-    console.log("User signed up:", inputValues);
-
-    setInputValue({ name: "", email: "", password: "" });
+    setSuccess("Signup successful! Redirecting to login...");
+    setTimeout(() => navigate("/login"), 1000);
   };
 
   return (
     <div className="signup-container">
-      <h1 className="signup-heading">Signup</h1>
-      <form className="signup-form" onSubmit={handleSubmit}>
-        <div>
-          <label className="signup-label" htmlFor="name">
-            Name:
-          </label>
+      <h1 className="signup-title">Sign Up</h1>
+      <form className="signup-form" onSubmit={handleSignup}>
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">{success}</p>}
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
           <input
-            className="signup-input"
-            type="text"
-            placeholder="Enter your name"
-            value={inputValues.name}
-            name="name"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label className="signup-label" htmlFor="email">
-            Email:
-          </label>
-          <input
-            className="signup-input"
+            className="form-input"
             type="email"
             placeholder="Enter your email"
-            value={inputValues.email}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             name="email"
-            onChange={handleChange}
-            required
           />
         </div>
-        <div>
-          <label className="signup-label" htmlFor="password">
-            Password:
-          </label>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
           <input
-            className="signup-input"
+            className="form-input"
             type="password"
-            placeholder="Enter password"
-            value={inputValues.password}
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             name="password"
-            onChange={handleChange}
-            required
           />
         </div>
-        <button className="signup-button" type="submit">
-          Submit
+        <button className="submit-button" type="submit">
+          Sign Up
         </button>
       </form>
-      <p className="signup-link">
-        Already have an account? <Link to="/login">Login</Link>
+      <p className="login-link">
+        Already have an account? <Link to="/login">Log in</Link>
       </p>
     </div>
   );
