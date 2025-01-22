@@ -10,7 +10,7 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = (e) => { 
     e.preventDefault();
 
     setError("");
